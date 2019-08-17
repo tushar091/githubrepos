@@ -1,5 +1,6 @@
 package com.example.githubrepos.ui.viewModels
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
@@ -23,7 +24,12 @@ class MainActivityViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private val userName = ObservableField("")
     private val repoName = ObservableField("")
+
     val displayLoader = ObservableInt(View.GONE)
+
+    val pullRequests: MutableLiveData<List<Pulls>> by lazy {
+        MutableLiveData<List<Pulls>>()
+    }
 
     fun fetchRepository(userName: String, repositoryName: String) {
         val url = "$BASE_URL$REPOS$userName/$repositoryName$PULLS"
@@ -42,9 +48,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun displayOpenPullRequests(pulls: Array<Pulls>) {
         displayLoader.set(View.GONE)
-        for (pull in pulls) {
-            Log.d(TAG, pull.toString())
-        }
+        pullRequests.postValue(pulls.asList())
     }
 
     fun onSearchClicked() {
