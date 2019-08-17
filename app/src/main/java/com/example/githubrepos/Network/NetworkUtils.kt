@@ -1,6 +1,7 @@
 package com.example.githubrepos.network
 
 import android.util.Log
+import com.example.githubrepos.model.BaseRequest
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -11,7 +12,7 @@ import java.net.URL
 import java.util.*
 
 
-fun <T> createRequest(classOfT: Class<T>): Observable<Optional<T>> {
+fun <T> createRequest(request: BaseRequest, classOfT: Class<T>): Observable<Optional<T>> {
     return Observable.fromCallable {
         val url = URL("https://api.github.com/repositories")
         val response = getResponseFromHttpUrl(url)
@@ -19,7 +20,7 @@ fun <T> createRequest(classOfT: Class<T>): Observable<Optional<T>> {
     }
 }
 
-fun <T> createListRequest(classOfT: Class<T>): Observable<Optional<Array<T>>> {
+fun <T> createListRequest(request: BaseRequest, classOfT: Class<T>): Observable<Optional<Array<T>>> {
     return Observable.fromCallable {
         val url = URL("https://api.github.com/repositories")
         val response = getResponseFromHttpUrl(url)
