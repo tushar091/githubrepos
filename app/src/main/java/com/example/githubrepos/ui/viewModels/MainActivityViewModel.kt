@@ -64,4 +64,9 @@ class MainActivityViewModel : ViewModel() {
     fun onRepoNameEntered(s: Editable) {
         repoName.set(s.toString())
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
+    }
 }
