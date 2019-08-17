@@ -7,7 +7,6 @@ import android.databinding.ObservableInt
 import android.text.Editable
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import com.example.githubrepos.Network.RxUtils
 import com.example.githubrepos.constants.BASE_URL
 import com.example.githubrepos.constants.PULLS
@@ -15,7 +14,6 @@ import com.example.githubrepos.constants.REPOS
 import com.example.githubrepos.model.BaseRequest
 import com.example.githubrepos.model.Pulls
 import com.example.githubrepos.network.createListRequest
-import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.net.URL
@@ -24,8 +22,8 @@ import java.util.concurrent.TimeUnit
 class MainActivityViewModel : ViewModel() {
     private val TAG = "MainActivityViewModel"
     private val compositeDisposable = CompositeDisposable()
-    private val userName = ObservableField("")
-    private val repoName = ObservableField("")
+    val userName = ObservableField("")
+    val repoName = ObservableField("")
 
     val displayLoader = ObservableInt(View.GONE)
 
@@ -65,9 +63,5 @@ class MainActivityViewModel : ViewModel() {
 
     fun onRepoNameEntered(s: Editable) {
         repoName.set(s.toString())
-    }
-
-    fun loadImage(imageView: ImageView, src: String) {
-        Picasso.get().load(src).into(imageView)
     }
 }
