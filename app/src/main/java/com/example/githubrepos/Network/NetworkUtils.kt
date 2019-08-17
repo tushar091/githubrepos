@@ -22,8 +22,7 @@ fun <T> createRequest(request: BaseRequest, classOfT: Class<T>): Observable<Opti
 
 fun <T> createListRequest(request: BaseRequest, classOfT: Class<T>): Observable<Optional<Array<T>>> {
     return Observable.fromCallable {
-        val url = URL("https://api.github.com/repositories")
-        val response = getResponseFromHttpUrl(url)
+        val response = getResponseFromHttpUrl(request.url)
         Optional.ofNullable(parseListResponse(response, classOfT))
     }
 }

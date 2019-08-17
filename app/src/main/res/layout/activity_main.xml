@@ -23,19 +23,28 @@
                 android:id="@+id/et_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{(v)->model.onUserNameEntered(v)}"
                 android:hint="@string/user_name" />
 
             <EditText
                 android:id="@+id/et_repo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{(v)->model.onRepoNameEntered(v)}"
                 android:hint="@string/repo_name" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->model.onSearchClicked()}"
+                android:text="Search" />
         </LinearLayout>
 
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="@{model.displayLoader, default = gone}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_pull_request"
