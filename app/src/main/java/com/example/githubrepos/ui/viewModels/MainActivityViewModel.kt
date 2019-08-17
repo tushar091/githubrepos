@@ -7,6 +7,7 @@ import android.databinding.ObservableInt
 import android.text.Editable
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import com.example.githubrepos.Network.RxUtils
 import com.example.githubrepos.constants.BASE_URL
 import com.example.githubrepos.constants.PULLS
@@ -14,6 +15,7 @@ import com.example.githubrepos.constants.REPOS
 import com.example.githubrepos.model.BaseRequest
 import com.example.githubrepos.model.Pulls
 import com.example.githubrepos.network.createListRequest
+import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.net.URL
@@ -54,6 +56,7 @@ class MainActivityViewModel : ViewModel() {
     fun onSearchClicked() {
         fetchRepository(userName.get().toString(), repoName.get().toString())
         displayLoader.set(View.VISIBLE)
+        pullRequests.postValue(listOf())
     }
 
     fun onUserNameEntered(s: Editable) {
@@ -62,5 +65,9 @@ class MainActivityViewModel : ViewModel() {
 
     fun onRepoNameEntered(s: Editable) {
         repoName.set(s.toString())
+    }
+
+    fun loadImage(imageView: ImageView, src: String) {
+        Picasso.get().load(src).into(imageView)
     }
 }

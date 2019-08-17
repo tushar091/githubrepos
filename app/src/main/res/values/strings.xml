@@ -2,4 +2,6 @@
     <string name="app_name">GithubRepos</string>
     <string name="user_name">User Name</string>
     <string name="repo_name">Repo name</string>
+    <string name="pull_requests">Pull Requests</string>
+    <string name="search">Search</string>
 </resources>
