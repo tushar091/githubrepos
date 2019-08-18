@@ -24,6 +24,7 @@ class MainActivityViewModel : ViewModel() {
     val userName = ObservableField("")
     val repoName = ObservableField("")
     val uiAction = MutableLiveData<Int>()
+    val details = MutableLiveData<String>()
 
     val displayLoader = ObservableInt(View.GONE)
 
@@ -86,14 +87,15 @@ class MainActivityViewModel : ViewModel() {
             val pullHolder = PullRequestHolder(
                     title = it.title,
                     userName = it.user.userName,
-                    type = TYPE_PULLS)
+                    type = TYPE_PULLS,
+                    pullUrl = it.url)
             pullHolder
         }.toMutableList()
         pullRequests.postValue(list)
     }
 
     fun showLoader() {
-        loadRequest.postValue(PullRequestHolder("", "", TYPE_LOADER))
+        loadRequest.postValue(PullRequestHolder(EMPTY_STRING, EMPTY_STRING, TYPE_LOADER,EMPTY_STRING))
         currentPage++
     }
 
@@ -123,5 +125,9 @@ class MainActivityViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+    }
+
+    fun onItemClicked(pull:PullRequestHolder){
+        details.postValue(pull.pullUrl)
     }
 }

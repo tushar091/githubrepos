@@ -14,38 +14,27 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:paddingTop="9dp"
-        android:paddingBottom="9dp">
+        android:paddingBottom="9dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/user_image"
-            android:layout_width="16dp"
-            android:layout_height="16dp" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:fontFamily="sans-serif-medium"
+            android:text="@{model.userName}"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="@{model.userName}"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="@{model.title}"
-                android:textColor="#747474"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{model.title}"
+            android:textColor="#747474"
+            android:textSize="14sp"
+            android:textStyle="normal" />
     </LinearLayout>
 </layout>

@@ -10,7 +10,7 @@ import com.example.githubrepos.databinding.ItemPullRequestBinding
 import com.example.githubrepos.model.PullRequestHolder
 import com.example.githubrepos.model.TYPE_PULLS
 
-class PullAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PullAdapter(val listener: ClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var pullRequests = mutableListOf<PullRequestHolder>()
     lateinit var binding: ItemPullRequestBinding
     lateinit var loadBinding: ItemLoadingBinding
@@ -40,7 +40,7 @@ class PullAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (pullRequests[position].type) {
-            TYPE_PULLS -> (holder as PullViewHolder).bindDataToViewHolder(pullRequests[position])
+            TYPE_PULLS -> (holder as PullViewHolder).bindDataToViewHolder(pullRequests[position], listener)
             else -> {
                 (holder as LoaderViewHolder).bindDataToViewHolder()
             }
@@ -78,9 +78,10 @@ class PullAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class PullViewHolder(val binding: ItemPullRequestBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindDataToViewHolder(pullRequest: PullRequestHolder) {
+        fun bindDataToViewHolder(pullRequest: PullRequestHolder, listener: ClickListener) {
             binding.model = pullRequest
             binding.executePendingBindings()
+            binding.root.setOnClickListener { listener.onItemClicker(pullRequest) }
         }
 
     }
@@ -89,5 +90,9 @@ class PullAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bindDataToViewHolder() {
             binding.executePendingBindings()
         }
+    }
+
+    interface ClickListener {
+        fun onItemClicker(pull: PullRequestHolder)
     }
 }

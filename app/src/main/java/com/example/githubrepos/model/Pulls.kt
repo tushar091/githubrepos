@@ -6,5 +6,6 @@ data class Pulls(
         var body: String,
         var createdAt: String,
         var updatedAt: String,
-        var user: User
+        var user: User,
+        var url: String
 )

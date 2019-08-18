@@ -14,8 +14,7 @@ import java.util.*
 
 fun <T> createRequest(request: BaseRequest, classOfT: Class<T>): Observable<Optional<T>> {
     return Observable.fromCallable {
-        val url = URL("https://api.github.com/repositories")
-        val response = getResponseFromHttpUrl(url)
+        val response = getResponseFromHttpUrl(request.url)
         Optional.ofNullable(parseResponse(response, classOfT))
     }
 }
@@ -68,7 +67,7 @@ fun <T> parseListResponse(response: String?, classOfT: Class<T>): Array<T>? {
         val listType = TypeToken.getArray(classOfT)
         return gson.fromJson(response, listType.type)
     } catch (e: JsonSyntaxException) {
-        Log.e("json exception", e.message)
+        throw e
     } catch (e: Exception) {
         Log.e("json exception", e.message)
     }

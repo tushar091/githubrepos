@@ -4,6 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
 import android.text.Editable
 import android.view.View
+import com.example.githubrepos.constants.EMPTY_STRING
 import com.example.githubrepos.constants.LIST_SIZE_ZERO
 import com.example.githubrepos.constants.RESPONSE_RECIEVED
 import com.example.githubrepos.model.PullRequestHolder
@@ -116,13 +117,13 @@ class MainActivityViewModelTest {
     @Test
     fun verifyErrorsInNetworkCall() {
         SUT.showLoader()
-        assertEquals(SUT.currentPage,2)
+        assertEquals(SUT.currentPage, 2)
         SUT.showLoader()
-        assertEquals(SUT.currentPage,3)
+        assertEquals(SUT.currentPage, 3)
     }
 
     @Test
-    fun verifyUIActionsOnResponseRecieve(){
+    fun verifyUIActionsOnResponseRecieve() {
         SUT.uiAction.observeForever(observer)
         val user = User("a", "b")
         val pull = mock(Pulls::class.java)
@@ -134,7 +135,7 @@ class MainActivityViewModelTest {
     }
 
     @Test
-    fun verifyUIActionsOnEmptyList(){
+    fun verifyUIActionsOnEmptyList() {
         SUT.uiAction.observeForever(observer)
         SUT.currentPage = 2
         val pulls = arrayOf<Pulls>()
@@ -143,7 +144,7 @@ class MainActivityViewModelTest {
     }
 
     @Test
-    fun verifyUIActionsOnEmptyListAndFirstPage(){
+    fun verifyUIActionsOnEmptyListAndFirstPage() {
         SUT.uiAction.observeForever(observer)
         SUT.currentPage = 1
         val pulls = arrayOf<Pulls>()
@@ -154,9 +155,9 @@ class MainActivityViewModelTest {
     }
 
     @Test
-    fun verifyShowLoader(){
+    fun verifyShowLoader() {
         SUT.loadRequest.observeForever(holderObserver)
         SUT.showLoader()
-        verify(holderObserver).onChanged(PullRequestHolder("","", TYPE_LOADER))
+        verify(holderObserver).onChanged(PullRequestHolder(EMPTY_STRING, EMPTY_STRING, TYPE_LOADER, EMPTY_STRING))
     }
 }
