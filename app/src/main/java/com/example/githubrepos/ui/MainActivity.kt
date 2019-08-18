@@ -8,9 +8,13 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.example.githubrepos.R
+import com.example.githubrepos.constants.LIST_SIZE_ZERO
+import com.example.githubrepos.constants.RESPONSE_RECIEVED
+import com.example.githubrepos.constants.SEARCH_CLICKED
 import com.example.githubrepos.databinding.ActivityMainBinding
 import com.example.githubrepos.ui.adapters.PullAdapter
 import com.example.githubrepos.ui.viewModels.MainActivityViewModel
+import com.example.githubrepos.utils.addOnScrolledToEnd
 
 class MainActivity : BaseActivity() {
     lateinit var viewModel: MainActivityViewModel
@@ -28,7 +32,7 @@ class MainActivity : BaseActivity() {
         with(recyclerView) {
             adapter = pullAdapter
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            val decor = DividerItemDecoration(context,DividerItemDecoration.VERTICAL)
+            val decor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             addItemDecoration(decor)
         }
         registerObserver()
@@ -36,7 +40,30 @@ class MainActivity : BaseActivity() {
 
     fun registerObserver() {
         viewModel.pullRequests.observe(this, Observer {
-            pullAdapter.setData(it.orEmpty())
+            pullAdapter.addDataList(it.orEmpty().toMutableList())
+        })
+        viewModel.loadRequest.observe(this, Observer {
+            pullAdapter.addData(it)
+            viewModel.fetchNextPage()
+        })
+        viewModel.uiAction.observe(this, Observer {
+            when (it) {
+                LIST_SIZE_ZERO -> {
+                    pullAdapter.removeData()
+                }
+                SEARCH_CLICKED -> {
+                    pullAdapter.setData(mutableListOf())
+                }
+                RESPONSE_RECIEVED->{
+                    pullAdapter.removeData()
+                    recyclerView.addOnScrolledToEnd{
+                        viewModel.showLoader()
+                        recyclerView.setOnScrollListener(null)
+                    }
+                }
+            }
         })
     }
+
+
 }

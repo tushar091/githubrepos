@@ -11,7 +11,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_margin="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -24,45 +24,86 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:afterTextChanged="@{(v)->model.onUserNameEntered(v)}"
-                android:hint="@string/user_name" />
+                android:fontFamily="sans-serif"
+                android:hint="@string/user_name"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/et_repo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:afterTextChanged="@{(v)->model.onRepoNameEntered(v)}"
-                android:hint="@string/repo_name" />
+                android:fontFamily="sans-serif"
+                android:hint="@string/repo_name"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:onClick="@{()->model.onSearchClicked()}"
-                android:text="@string/search" />
+                android:text="@string/search"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="normal" />
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_error_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/pull_requests"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:visibility="@{model.displayErrorLayout, default = gone}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="@{model.errorString}"
+                android:textColor="#d50001"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{model.displayLoader, default = gone}" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_pull_request"
+        <LinearLayout
+            android:id="@+id/ll_pull_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{model.displayPullRequestlayout, default = gone}">
 
-        </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/pull_requests"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_pull_request"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
 
     </LinearLayout>
 </layout>

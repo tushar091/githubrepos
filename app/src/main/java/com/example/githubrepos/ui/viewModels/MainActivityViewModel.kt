@@ -8,11 +8,8 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import com.example.githubrepos.Network.RxUtils
-import com.example.githubrepos.constants.BASE_URL
-import com.example.githubrepos.constants.PULLS
-import com.example.githubrepos.constants.REPOS
-import com.example.githubrepos.model.BaseRequest
-import com.example.githubrepos.model.Pulls
+import com.example.githubrepos.constants.*
+import com.example.githubrepos.model.*
 import com.example.githubrepos.network.createListRequest
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -22,38 +19,96 @@ import java.util.concurrent.TimeUnit
 class MainActivityViewModel : ViewModel() {
     private val TAG = "MainActivityViewModel"
     private val compositeDisposable = CompositeDisposable()
+    var currentPage = 1
+    var list = mutableListOf<PullRequestHolder>()
     val userName = ObservableField("")
     val repoName = ObservableField("")
+    val uiAction = MutableLiveData<Int>()
 
     val displayLoader = ObservableInt(View.GONE)
 
-    val pullRequests: MutableLiveData<List<Pulls>> by lazy {
-        MutableLiveData<List<Pulls>>()
+    val displayErrorLayout = ObservableInt(View.GONE)
+
+    val displayPullRequestlayout = ObservableInt(View.GONE)
+
+    val errorString = ObservableField("")
+
+    val pullRequests: MutableLiveData<List<PullRequestHolder>> by lazy {
+        MutableLiveData<List<PullRequestHolder>>()
+    }
+
+    val loadRequest: MutableLiveData<PullRequestHolder> by lazy {
+        MutableLiveData<PullRequestHolder>()
     }
 
     fun fetchRepository(userName: String, repositoryName: String) {
-        val url = "$BASE_URL$REPOS$userName/$repositoryName$PULLS"
+        val url = "$BASE_URL$REPOS$userName/$repositoryName$PULLS$PAGE$currentPage"
         val request = BaseRequest(URL(url))
         compositeDisposable.add(
                 createListRequest(request, Pulls::class.java)
                         .flatMap { Observable.just(it.get()) }
-                        .timeout(30, TimeUnit.SECONDS)
+                        .timeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
                         .compose(RxUtils.applyNetworkExecutor())
                         .subscribe(
                                 { displayOpenPullRequests(it) },
-                                { Log.e(TAG, it.message) }
+                                {
+                                    Log.e(TAG, it.message)
+                                    handleErrors()
+                                }
                         )
         )
     }
 
-    fun displayOpenPullRequests(pulls: Array<Pulls>) {
+    fun handleErrors() {
+        errorString.set("Please check if valid repository")
         displayLoader.set(View.GONE)
-        pullRequests.postValue(pulls.asList())
+        displayPullRequestlayout.set(View.GONE)
+        displayErrorLayout.set(View.VISIBLE)
+    }
+
+    fun displayOpenPullRequests(pulls: Array<Pulls>) {
+        if (pulls.isEmpty() && currentPage == 1) {
+            errorString.set("No open pull requests")
+            displayErrorLayout.set(View.VISIBLE)
+            displayLoader.set(View.GONE)
+            displayPullRequestlayout.set(View.GONE)
+            return
+        }
+        if (pulls.isEmpty() && currentPage > 1) {
+            uiAction.postValue(LIST_SIZE_ZERO)
+            return
+        }
+        uiAction.postValue(RESPONSE_RECIEVED)
+        displayLoader.set(View.GONE)
+        displayErrorLayout.set(View.GONE)
+        displayPullRequestlayout.set(View.VISIBLE)
+        list = pulls.map {
+            val pullHolder = PullRequestHolder(
+                    title = it.title,
+                    userName = it.user.userName,
+                    type = TYPE_PULLS)
+            pullHolder
+        }.toMutableList()
+        pullRequests.postValue(list)
+    }
+
+    fun showLoader() {
+        loadRequest.postValue(PullRequestHolder("", "", TYPE_LOADER))
+        currentPage++
+    }
+
+    fun fetchNextPage(){
+        fetchRepository(userName.get().toString(), repoName.get().toString())
     }
 
     fun onSearchClicked() {
+        list.clear()
+        currentPage = 1
+        uiAction.postValue(SEARCH_CLICKED)
         fetchRepository(userName.get().toString(), repoName.get().toString())
         displayLoader.set(View.VISIBLE)
+        displayPullRequestlayout.set(View.GONE)
+        displayErrorLayout.set(View.GONE)
         pullRequests.postValue(listOf())
     }
 

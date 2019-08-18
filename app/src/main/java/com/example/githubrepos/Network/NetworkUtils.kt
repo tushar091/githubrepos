@@ -20,6 +20,7 @@ fun <T> createRequest(request: BaseRequest, classOfT: Class<T>): Observable<Opti
     }
 }
 
+@Throws(JsonSyntaxException::class)
 fun <T> createListRequest(request: BaseRequest, classOfT: Class<T>): Observable<Optional<Array<T>>> {
     return Observable.fromCallable {
         val response = getResponseFromHttpUrl(request.url)
@@ -48,12 +49,13 @@ fun getResponseFromHttpUrl(url: URL): String? {
     }
 }
 
+@Throws(JsonSyntaxException::class)
 fun <T> parseResponse(response: String?, classOfT: Class<T>): T? {
     val gson = Gson()
     try {
         return gson.fromJson(response, classOfT)
     } catch (e: JsonSyntaxException) {
-        Log.e("json exception", e.message)
+        throw e
     } catch (e: Exception) {
         Log.e("json exception", e.message)
     }

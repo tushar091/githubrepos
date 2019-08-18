@@ -1,7 +1,16 @@
 package com.example.githubrepos.constants
 
-val BASE_URL = "https://api.github.com/"
+const val BASE_URL = "https://api.github.com/"
 
-val REPOS = "repos/"
+const val REPOS = "repos/"
 
-val PULLS = "/pulls"
+const val PULLS = "/pulls?"
+
+const val PAGE = "page="
+
+const val DEFAULT_TIME_OUT = 30L
+
+
+const val LIST_SIZE_ZERO = 10
+const val SEARCH_CLICKED = 11
+const val RESPONSE_RECIEVED = 12

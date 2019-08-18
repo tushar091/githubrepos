@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.example.githubrepos.model.Pulls" />
+            type="com.example.githubrepos.model.PullRequestHolder" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="@{model.user.userName}"
+                android:text="@{model.userName}"
                 android:textColor="#212121"
                 android:textSize="16sp"
                 android:textStyle="normal" />
