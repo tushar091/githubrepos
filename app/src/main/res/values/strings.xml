@@ -4,5 +4,5 @@
     <string name="repo_name">Repo name</string>
     <string name="pull_requests">Pull Requests</string>
     <string name="search">Search</string>
-    <string name="error_text">Some thing is not right,Please check if repository exists</string>
+    <string name="error_text">Some thing is not right</string>
 </resources>

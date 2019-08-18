@@ -68,7 +68,7 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="@{model.errorString}"
-                android:textColor="#d50001"
+                android:textColor="@color/error"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
