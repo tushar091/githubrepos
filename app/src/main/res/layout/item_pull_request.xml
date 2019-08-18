@@ -12,9 +12,9 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:paddingTop="9dp"
-        android:paddingBottom="9dp"
+        android:layout_margin="@dimen/standard_margin"
+        android:paddingTop="@dimen/standard_padding"
+        android:paddingBottom="@dimen/standard_padding"
         android:orientation="vertical">
 
         <TextView
@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="@{model.userName}"
-            android:textColor="#212121"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text"
             android:textStyle="normal" />
 
         <TextView
@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="@{model.title}"
-            android:textColor="#747474"
-            android:textSize="14sp"
+            android:textColor="@color/body_text"
+            android:textSize="@dimen/medium_text"
             android:textStyle="normal" />
     </LinearLayout>
 </layout>

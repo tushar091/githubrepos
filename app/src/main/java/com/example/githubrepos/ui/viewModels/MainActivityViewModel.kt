@@ -8,6 +8,7 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import com.example.githubrepos.Network.RxUtils
+import com.example.githubrepos.R
 import com.example.githubrepos.constants.*
 import com.example.githubrepos.model.*
 import com.example.githubrepos.network.createListRequest
@@ -21,8 +22,8 @@ class MainActivityViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     var currentPage = 1
     var list = mutableListOf<PullRequestHolder>()
-    val userName = ObservableField("")
-    val repoName = ObservableField("")
+    val userName = ObservableField(EMPTY_STRING)
+    val repoName = ObservableField(EMPTY_STRING)
     val uiAction = MutableLiveData<Int>()
     val details = MutableLiveData<String>()
 
@@ -32,7 +33,7 @@ class MainActivityViewModel : ViewModel() {
 
     val displayPullRequestlayout = ObservableInt(View.GONE)
 
-    val errorString = ObservableField("")
+    val errorString = ObservableInt(R.string.empty_string)
 
     val pullRequests: MutableLiveData<List<PullRequestHolder>> by lazy {
         MutableLiveData<List<PullRequestHolder>>()
@@ -61,7 +62,7 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun handleErrors() {
-        errorString.set("Please check if valid repository")
+        errorString.set(R.string.error_text)
         displayLoader.set(View.GONE)
         displayPullRequestlayout.set(View.GONE)
         displayErrorLayout.set(View.VISIBLE)
@@ -69,7 +70,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun displayOpenPullRequests(pulls: Array<Pulls>) {
         if (pulls.isEmpty() && currentPage == 1) {
-            errorString.set("No open pull requests")
+            errorString.set(R.string.no_open_pulls)
             displayErrorLayout.set(View.VISIBLE)
             displayLoader.set(View.GONE)
             displayPullRequestlayout.set(View.GONE)
@@ -95,11 +96,11 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun showLoader() {
-        loadRequest.postValue(PullRequestHolder(EMPTY_STRING, EMPTY_STRING, TYPE_LOADER,EMPTY_STRING))
+        loadRequest.postValue(PullRequestHolder(EMPTY_STRING, EMPTY_STRING, TYPE_LOADER, EMPTY_STRING))
         currentPage++
     }
 
-    fun fetchNextPage(){
+    fun fetchNextPage() {
         fetchRepository(userName.get().toString(), repoName.get().toString())
     }
 
@@ -127,7 +128,7 @@ class MainActivityViewModel : ViewModel() {
         compositeDisposable.dispose()
     }
 
-    fun onItemClicked(pull:PullRequestHolder){
+    fun onItemClicked(pull: PullRequestHolder) {
         details.postValue(pull.pullUrl)
     }
 }

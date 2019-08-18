@@ -11,7 +11,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/standard_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,8 +26,8 @@
                 android:afterTextChanged="@{(v)->model.onUserNameEntered(v)}"
                 android:fontFamily="sans-serif"
                 android:hint="@string/user_name"
-                android:textColor="#000000"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_text"
                 android:textStyle="normal" />
 
             <EditText
@@ -37,8 +37,8 @@
                 android:afterTextChanged="@{(v)->model.onRepoNameEntered(v)}"
                 android:fontFamily="sans-serif"
                 android:hint="@string/repo_name"
-                android:textColor="#000000"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_text"
                 android:textStyle="normal" />
 
             <Button
@@ -48,8 +48,8 @@
                 android:fontFamily="sans-serif"
                 android:onClick="@{()->model.onSearchClicked()}"
                 android:text="@string/search"
-                android:textColor="#000000"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_text"
                 android:textStyle="normal" />
         </LinearLayout>
 
@@ -69,7 +69,7 @@
                 android:gravity="center"
                 android:text="@{model.errorString}"
                 android:textColor="@color/error"
-                android:textSize="14sp"
+                android:textSize="@dimen/small_text"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -93,8 +93,8 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/pull_requests"
-                android:textColor="#000000"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_text"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
